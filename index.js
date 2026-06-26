@@ -11,12 +11,13 @@ const app = express();
 // Middleware
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  const allowed = [
-    'https://persona-6a0ro4gis-fb11.vercel.app',
-    'http://localhost:5173',
-    'http://localhost:3000',
-  ];
-  if (allowed.includes(origin)) res.header('Access-Control-Allow-Origin', origin);
+  if (
+    origin &&
+    (origin.endsWith('.vercel.app') ||
+      origin.startsWith('http://localhost'))
+  ) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.sendStatus(204);
