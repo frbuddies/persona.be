@@ -13,7 +13,7 @@ app.use((req, res, next) => {
   const origin = req.headers.origin;
   if (
     origin &&
-    (origin.endsWith('.vercel.app') ||
+    (origin === 'https://persona-fe.vercel.app' ||
       origin.startsWith('http://localhost'))
   ) {
     res.header('Access-Control-Allow-Origin', origin);
