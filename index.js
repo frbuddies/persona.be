@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const express = require("express");
-const cors = require("cors");
 const mongoose = require("mongoose");
 
 // Import Routes
@@ -10,7 +9,19 @@ const personaRoutes = require("./src/route");
 const app = express();
 
 // Middleware
-app.use(cors({ origin: true, credentials: true }));
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  const allowed = [
+    'https://persona-6a0ro4gis-fb11.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:3000',
+  ];
+  if (allowed.includes(origin)) res.header('Access-Control-Allow-Origin', origin);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
 app.use(express.json());
 
 // Routes
