@@ -26,6 +26,9 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // Routes
+app.get("/", (req, res) => {
+  res.send("Backend is alive!");
+});
 app.use("/", personaRoutes);
 // or app.use("/api", personaRoutes); // Endpoints become /api/persona
 
