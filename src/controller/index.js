@@ -42,9 +42,38 @@ const getPersonaById = async (req, res) => {
   }
 };
 
-// GET /persona
 const getAllPersonas = async (req, res) => {
   try {
+    const { client_id } = req.query;
+
+    if (!client_id) {
+      return res.status(400).json({
+        success: false,
+        message: "client_id is required",
+      });
+    }
+
+    const personas = await Persona.find({ client_id }).sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      count: personas.length,
+      data: personas,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const getAllPersonasSuperAdmin = async (req, res, next) => {
+  try {
+    const { isSuperAdmin } = req.query;
+
+    if (!isSuperAdmin) return next();
+
     const personas = await Persona.find().sort({ createdAt: -1 });
 
     res.json({
@@ -60,8 +89,10 @@ const getAllPersonas = async (req, res) => {
   }
 };
 
+
 module.exports = {
   createPersona,
   getPersonaById,
   getAllPersonas,
+  getAllPersonasSuperAdmin
 };
