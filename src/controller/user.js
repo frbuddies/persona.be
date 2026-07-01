@@ -42,15 +42,22 @@ const createUser = async (req, res) => {
 const setPassword = async (req, res) => {
   try {
     const { client_id, password } = req.body;
+    console.log("🚀 ~ setPassword ~ client_id, password:", client_id, password)
 
     if (!client_id || !password) {
       return res.status(400).json({
         success: false,
-        message: "email and password are required",
+        message: "client_id and password are required",
       });
     }
 
-    const user = await User.findOne({ client_id });
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.findOneAndUpdate(
+      { client_id },
+      { password: hashedPassword },
+      { new: true }
+    );
 
     if (!user) {
       return res.status(404).json({
@@ -58,9 +65,6 @@ const setPassword = async (req, res) => {
         message: "user not found",
       });
     }
-
-    user.password = await bcrypt.hash(password, 10);
-    await user.save();
 
     res.status(200).json({
       success: true,
