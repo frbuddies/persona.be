@@ -41,16 +41,16 @@ const createUser = async (req, res) => {
 
 const setPassword = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { client_id, password } = req.body;
 
-    if (!email || !password) {
+    if (!client_id || !password) {
       return res.status(400).json({
         success: false,
         message: "email and password are required",
       });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ client_id });
 
     if (!user) {
       return res.status(404).json({
