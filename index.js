@@ -14,6 +14,7 @@ app.use((req, res, next) => {
   if (
     origin &&
     (origin === 'https://persona-fe.vercel.app' ||
+      origin.endsWith('.vercel.app') ||
       origin.startsWith('http://localhost'))
   ) {
     res.header('Access-Control-Allow-Origin', origin);
