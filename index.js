@@ -9,7 +9,7 @@ const personaRoutes = require("./src/route");
 const app = express();
 
 // Middleware
-const ALLOWED_ORIGINS = ['http://localhost:5173', 'https://persona-fe-sb03.onrender.com'];
+const ALLOWED_ORIGINS = ['http://localhost:5173', 'https://persona-fe-sb03.onrender.com', 'https://persona-fe.vercel.app'];
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
