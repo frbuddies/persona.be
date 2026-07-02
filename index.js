@@ -9,14 +9,11 @@ const personaRoutes = require("./src/route");
 const app = express();
 
 // Middleware
+const ALLOWED_ORIGINS = ['http://localhost:5173', 'https://persona-fe-sb03.onrender.com'];
+
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  if (
-    origin &&
-    (origin === 'https://persona-fe.vercel.app' ||
-      origin.endsWith('.vercel.app') ||
-      origin.startsWith('http://localhost'))
-  ) {
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
   }
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
